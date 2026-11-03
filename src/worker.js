@@ -59,7 +59,10 @@ async function geminiModels(env) {
   const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', {
     headers: { 'x-goog-api-key': env.GEMINI_API_KEY },
   });
-  if (!res.ok) return geminiCache.models;
+  if (!res.ok) {
+    console.warn(`gemini list models failed: ${res.status}`);
+    return geminiCache.models;
+  }
   const { models = [] } = await res.json();
   const list = models
     .filter((m) => /^models\/gemini-/.test(m.name)
