@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Beacon — when you can’t speak, your Beacon will</title>
+  <meta name="description" content="A free QR lifeline for medical emergencies, lost children, dementia, pets and pilgrims. Your information lives inside the code — never on a server.">
+  <meta name="theme-color" content="#0b0d12">
+  <meta property="og:title" content="Beacon — when you can’t speak, your Beacon will">
+  <meta property="og:description" content="A free QR lifeline. Your information lives inside the code — never on a server.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gitsult4n.com/">
+  <meta property="og:image" content="https://gitsult4n.com/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="preload" href="/fonts/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/app.css">
+  <script src="/vendor/qrcode.js" defer></script>
+  <script src="/js/app.js" type="module"></script>
+</head>
+<body data-view="landing">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Beacon home">
+      <span class="beacon-dot" aria-hidden="true"></span><span>Beacon</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="#how" data-i18n="nav_how">How it works</a>
+      <a href="#modes" data-i18n="nav_modes">Who it’s for</a>
+      <a href="#privacy" data-i18n="nav_privacy">Privacy</a>
+      <a href="#mine" data-i18n="nav_mine">My Beacons</a>
+    </nav>
+    <div class="top-actions">
+      <button id="lang-toggle" class="icon-btn" type="button" aria-label="Language / اللغة">ع</button>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9A7 7 0 0 1 12 3z" fill="currentColor"/></svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="#create" data-i18n="nav_create">Create</a>
+    </div>
+  </header>
+
+  <!-- ===================== LANDING ===================== -->
+  <main id="view-landing" class="view">
+    <section class="hero" id="main">
+      <div class="hero-copy">
+        <p class="kicker" data-i18n="hero_kicker">Free · No account · Nothing stored on a server</p>
+        <h1 class="display" data-i18n="hero_title">When you can’t speak, <em>your Beacon will.</em></h1>
+        <p class="lead" data-i18n="hero_sub"></p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-lg" href="#create" data-i18n="hero_cta">Create your Beacon</a>
+          <button class="btn btn-ghost btn-lg" type="button" data-sample="m" data-i18n="hero_sample">See what a stranger sees</button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="rings"><i></i><i></i><i></i></div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="lock-time">9:41</div>
+          <div class="lock-date">Tuesday, 3 November</div>
+          <div class="lock-pill">EMERGENCY · SCAN ME</div>
+          <div class="lock-name">Layla Hassan</div>
+          <div class="lock-crit">Blood O- · Allergy: Penicillin, peanuts</div>
+          <div class="lock-qr" id="hero-qr"></div>
+          <div class="lock-ice">In emergency call · Omar (Husband)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats" aria-label="Beacon in numbers">
+      <div><strong>0</strong><span data-i18n="stat_bytes"></span></div>
+      <div><strong>0</strong><span data-i18n="stat_accounts"></span></div>
+      <div><strong>7</strong><span data-i18n="stat_langs"></span></div>
+      <div><strong>1</strong><span data-i18n="stat_tap"></span></div>
+    </section>
+
+    <section class="section" id="how">
+      <p class="kicker" data-i18n="how_kicker"></p>
+      <h2 class="h2" data-i18n="how_title"></h2>
+      <ol class="steps">
+        <li><span class="step-n">01</span><h3 data-i18n="how1_t"></h3><p data-i18n="how1_d"></p></li>
+        <li><span class="step-n">02</span><h3 data-i18n="how2_t"></h3><p data-i18n="how2_d"></p></li>
+        <li><span class="step-n">03</span><h3 data-i18n="how3_t"></h3><p data-i18n="how3_d"></p></li>
+      </ol>
+    </section>
+
+    <section class="section" id="modes">
+      <p class="kicker" data-i18n="modes_kicker"></p>
+      <h2 class="h2" data-i18n="modes_title"></h2>
+      <div class="modes">
+        <article class="mode" style="--accent:#e5372a">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v6h6v6h-6v6H9v-6H3V9h6z"/></svg>
+          <h3 data-i18n="t_m"></h3><p data-i18n="mode_m"></p>
+          <div class="mode-actions"><button type="button" class="link" data-create="m" data-i18n="nav_create"></button><button type="button" class="link" data-sample="m">↗</button></div>
+        </article>
+        <article class="mode" style="--accent:#f08c00">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="3"/><path d="M7 22v-7H5l2.5-6h9L19 15h-2v7h-3.5v-5h-3v5z"/></svg>
+          <h3 data-i18n="t_c"></h3><p data-i18n="mode_c"></p>
+          <div class="mode-actions"><button type="button" class="link" data-create="c" data-i18n="nav_create"></button><button type="button" class="link" data-sample="c">↗</button></div>
+        </article>
+        <article class="mode" style="--accent:#7b5cff">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-8-5.2-8-11.2A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 2.8C20 15.8 12 21 12 21z"/></svg>
+          <h3 data-i18n="t_e"></h3><p data-i18n="mode_e"></p>
+          <div class="mode-actions"><button type="button" class="link" data-create="e" data-i18n="nav_create"></button><button type="button" class="link" data-sample="e">↗</button></div>
+        </article>
+        <article class="mode" style="--accent:#0e9f8e">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="10" r="2.2"/><circle cx="10" cy="6" r="2.2"/><circle cx="14" cy="6" r="2.2"/><circle cx="18" cy="10" r="2.2"/><path d="M12 11c3 0 6 4.5 6 7 0 2-2 2.5-3 2.5S13 20 12 20s-2 .5-3 .5-3-.5-3-2.5c0-2.5 3-7 6-7z"/></svg>
+          <h3 data-i18n="t_p"></h3><p data-i18n="mode_p"></p>
+          <div class="mode-actions"><button type="button" class="link" data-create="p" data-i18n="nav_create"></button><button type="button" class="link" data-sample="p">↗</button></div>
+        </article>
+        <article class="mode" style="--accent:#1f8a4c">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+          <h3 data-i18n="t_j"></h3><p data-i18n="mode_j"></p>
+          <div class="mode-actions"><button type="button" class="link" data-create="j" data-i18n="nav_create"></button><button type="button" class="link" data-sample="j">↗</button></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section privacy" id="privacy">
+      <p class="kicker" data-i18n="privacy_kicker"></p>
+      <h2 class="h2" data-i18n="privacy_title"></h2>
+      <p class="lead" data-i18n="privacy_d"></p>
+      <figure class="url-figure">
+        <div class="url-bar" dir="ltr"><span class="url-lock">🔒</span><code id="url-demo"></code></div>
+        <figcaption class="url-legend">
+          <span><i class="sw sw-srv"></i><span data-i18n="url_srv"></span></span>
+          <span><i class="sw sw-dev"></i><span data-i18n="url_dev"></span></span>
+        </figcaption>
+      </figure>
+      <ul class="checks">
+        <li data-i18n="privacy_p1"></li>
+        <li data-i18n="privacy_p2"></li>
+        <li data-i18n="privacy_p3"></li>
+        <li data-i18n="privacy_p4"></li>
+      </ul>
+    </section>
+
+    <section class="section" id="helper">
+      <p class="kicker" data-i18n="resp_kicker"></p>
+      <h2 class="h2" data-i18n="resp_title"></h2>
+      <div class="features">
+        <div><b>🌐</b><p data-i18n="resp1"></p></div>
+        <div><b>📞</b><p data-i18n="resp2"></p></div>
+        <div><b>📍</b><p data-i18n="resp3"></p></div>
+        <div><b>🚑</b><p data-i18n="resp4"></p></div>
+        <div><b>🔊</b><p data-i18n="resp5"></p></div>
+        <div><b>🗓️</b><p data-i18n="resp6"></p></div>
+        <div><b>✨</b><p data-i18n="resp7"></p></div>
+      </div>
+      <div class="center"><button class="btn btn-ghost" type="button" data-sample="c" data-i18n="hero_sample"></button></div>
+    </section>
+
+    <section class="section" id="faq">
+      <p class="kicker" data-i18n="faq_kicker"></p>
+      <h2 class="h2" data-i18n="faq_title"></h2>
+      <div class="faq">
+        <details><summary data-i18n="faq1_q"></summary><p data-i18n="faq1_a"></p></details>
+        <details><summary data-i18n="faq2_q"></summary><p data-i18n="faq2_a"></p></details>
+        <details><summary data-i18n="faq3_q"></summary><p data-i18n="faq3_a"></p></details>
+        <details><summary data-i18n="faq4_q"></summary><p data-i18n="faq4_a"></p></details>
+        <details><summary data-i18n="faq5_q"></summary><p data-i18n="faq5_a"></p></details>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="rings"><i></i><i></i><i></i></div>
+      <h2 class="h2" data-i18n="cta_title"></h2>
+      <a class="btn btn-primary btn-lg" href="#create" data-i18n="cta_btn"></a>
+    </section>
+  </main>
+
+  <!-- ===================== BUILDER ===================== -->
+  <main id="view-create" class="view" hidden>
+    <div class="builder">
+      <div class="builder-form">
+        <div class="builder-head">
+          <h1 class="h2" data-i18n="b_title"></h1>
+          <div class="builder-head-actions">
+            <span id="b-saved" class="saved" hidden>● <span data-i18n="b_saved"></span></span>
+            <button id="b-new" type="button" class="btn btn-quiet" data-i18n="b_new"></button>
+            <button id="b-delete" type="button" class="btn btn-quiet btn-danger" data-i18n="b_delete" hidden></button>
+          </div>
+        </div>
+
+        <fieldset class="card">
+          <legend data-i18n="b_type"></legend>
+          <div id="type-picker" class="type-picker" role="radiogroup"></div>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend data-i18n="b_details"></legend>
+          <div id="fields" class="fields"></div>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend data-i18n="b_contacts"></legend>
+          <div id="contacts" class="contacts"></div>
+          <button id="add-contact" type="button" class="btn btn-quiet">+ <span data-i18n="b_add_contact"></span></button>
+        </fieldset>
+
+        <section id="ai-card" class="card" hidden>
+          <h2 class="h3">✨ <span data-i18n="ai_title"></span> <small class="muted" data-i18n="ai_optional"></small></h2>
+          <p class="muted small" data-i18n="ai_d"></p>
+          <div id="ai-picker"></div>
+          <div class="ai-actions">
+            <button id="ai-polish" type="button" class="btn btn-quiet" data-i18n="ai_polish"></button>
+            <button id="ai-tips" type="button" class="btn btn-quiet" data-i18n="ai_tips"></button>
+            <span class="ai-bar">
+              <select id="ai-lang" aria-label="Language"></select>
+              <button id="ai-translate" type="button" class="btn btn-quiet" data-i18n="ai_translate"></button>
+            </span>
+          </div>
+          <div id="ai-result" aria-live="polite"></div>
+        </section>
+
+        <details id="private" class="card private">
+          <summary><span data-i18n="b_private"></span> <small data-i18n="b_optional"></small></summary>
+          <p class="muted small" data-i18n="b_private_d"></p>
+          <div class="fields">
+            <div class="field field-wide"><label for="p-text" data-i18n="b_private_text"></label><textarea id="p-text" rows="3" maxlength="600" dir="auto"></textarea></div>
+            <div class="field"><label for="p-pin" data-i18n="b_pin"></label><input id="p-pin" type="password" autocomplete="new-password" maxlength="64"></div>
+            <div class="field"><label for="p-pin2" data-i18n="b_pin2"></label><input id="p-pin2" type="password" autocomplete="new-password" maxlength="64"></div>
+          </div>
+          <p id="p-state" class="pin-state" aria-live="polite"></p>
+        </details>
+
+        <section class="card outputs">
+          <h2 class="h3" data-i18n="b_outputs"></h2>
+          <p class="muted small" data-i18n="b_outputs_d"></p>
+          <div class="out-grid">
+            <div class="out out-wide">
+              <h3 data-i18n="b_wall"></h3><p data-i18n="b_wall_d"></p>
+              <div class="out-row">
+                <label><span class="sr-only" data-i18n="b_device"></span><select id="w-device"></select></label>
+                <label><span class="sr-only" data-i18n="b_style"></span>
+                  <select id="w-style">
+                    <option value="signal" data-i18n="s_signal">Signal</option>
+                    <option value="night" data-i18n="s_night">Midnight</option>
+                    <option value="paper" data-i18n="s_paper">Paper</option>
+                  </select>
+                </label>
+                <button id="w-download" type="button" class="btn btn-primary needs-qr" data-i18n="b_download"></button>
+              </div>
+            </div>
+            <div class="out"><h3 data-i18n="b_card"></h3><p data-i18n="b_card_d"></p><button id="o-card" type="button" class="btn btn-quiet needs-qr" data-i18n="b_print"></button></div>
+            <div class="out"><h3 data-i18n="b_band"></h3><p data-i18n="b_band_d"></p><button id="o-band" type="button" class="btn btn-quiet needs-qr" data-i18n="b_print"></button></div>
+            <div class="out"><h3 data-i18n="b_stickers"></h3><p data-i18n="b_stickers_d"></p><button id="o-sticker" type="button" class="btn btn-quiet needs-qr" data-i18n="b_print"></button></div>
+            <div class="out"><h3 data-i18n="b_files"></h3><p data-i18n="b_files_d"></p>
+              <div class="out-row"><button id="o-png" type="button" class="btn btn-quiet needs-qr" data-i18n="b_png"></button><button id="o-svg" type="button" class="btn btn-quiet needs-qr" data-i18n="b_svg"></button></div>
+            </div>
+            <div class="out"><h3 data-i18n="b_remind"></h3><p data-i18n="b_remind_d"></p><button id="o-ics" type="button" class="btn btn-quiet needs-qr" data-i18n="b_ics"></button></div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="builder-side">
+        <div class="qr-card card">
+          <div id="qr-box" class="qr-box"></div>
+          <div class="meter-wrap">
+            <span class="small muted" data-i18n="b_size"></span>
+            <div id="qr-meter" class="meter"><i></i></div>
+            <p id="qr-note" class="small muted" aria-live="polite"></p>
+          </div>
+          <div class="qr-actions">
+            <button id="b-test" type="button" class="btn btn-primary needs-qr" data-i18n="b_test"></button>
+            <button id="b-copy" type="button" class="btn btn-quiet needs-qr" data-i18n="b_copy"></button>
+            <button id="b-share" type="button" class="btn btn-quiet needs-qr" data-i18n="b_share" hidden></button>
+          </div>
+        </div>
+        <div class="preview">
+          <p class="small muted center" data-i18n="b_preview"></p>
+          <div class="preview-phone"><div id="preview-root"></div></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ===================== MY BEACONS ===================== -->
+  <main id="view-mine" class="view" hidden>
+    <div class="section mine">
+      <div class="builder-head">
+        <div>
+          <h1 class="h2" data-i18n="mine_title"></h1>
+          <p class="muted" data-i18n="mine_d"></p>
+        </div>
+        <div class="builder-head-actions">
+          <a class="btn btn-primary" href="#create" data-i18n="b_new"></a>
+          <button id="mine-export" type="button" class="btn btn-quiet" data-i18n="mine_export"></button>
+          <label class="btn btn-quiet"><span data-i18n="mine_import"></span><input id="mine-import-file" type="file" accept="application/json,.json" class="sr-only"></label>
+        </div>
+      </div>
+      <p id="mine-empty" class="empty" data-i18n="mine_empty" hidden></p>
+      <div id="mine-list" class="mine-list"></div>
+    </div>
+  </main>
+
+  <!-- ===================== SCANNED CARD ===================== -->
+  <main id="view-card" class="view" hidden>
+    <div id="card-root"></div>
+  </main>
+
+  <footer class="footer">
+    <p data-i18n="footer_disc"></p>
+    <p class="small">
+      <span data-i18n="footer_by"></span> <a href="https://github.com/gitsult4n">gitsult4n</a> ·
+      <a href="https://github.com/gitsult4n/gitsult4n.com" data-i18n="footer_src"></a>
+    </p>
+  </footer>
+
+  <div id="print-root"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
