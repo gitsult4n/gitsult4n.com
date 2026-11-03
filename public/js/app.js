@@ -327,6 +327,7 @@ async function aiAction(task) {
     const out = await runAi(task, fields, { lang: task === 'translate' ? $('#ai-lang').value : lang, type: cur.t });
     const rows = Object.entries(out).flatMap(([k, v]) => [
       h('dt', {}, k.startsWith('rel') ? `${t('b_c_rel')} ${+k.slice(3) + 1}` : label(k)),
+      fields[k] && fields[k] !== v ? h('dd', { class: 'ai-was', dir: 'auto' }, fields[k]) : null,
       h('dd', { dir: 'auto' }, v)]);
     box.replaceChildren(h('div', { class: 'ai-result' },
       h('dl', {}, rows),

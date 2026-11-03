@@ -26,7 +26,7 @@ The whole profile lives **inside the URL fragment** (`https://gitsult4n.com/#…
 | Service | Models | Note |
 |---|---|---|
 | Cloudflare Workers AI | Mistral Small 3.1, Llama 3.3 70B, Qwen3 30B, Gemma 4 | Free daily allocation; inputs are not used for training |
-| Google Gemini | Live list from the Gemini API | Free tier: Google may use inputs to improve its products |
+| Google Gemini | Gemini 3+ Flash / Flash-Lite, live list from the Gemini API | Free tier: Google may use inputs to improve its products |
 
 Requests are limited per IP, checked for same origin, and capped in size. Nothing is stored or logged. PIN-locked notes are never sent.
 

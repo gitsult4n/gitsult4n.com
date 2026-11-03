@@ -22,11 +22,13 @@ const SYSTEM = 'You are a careful assistant inside Beacon, an emergency-informat
 const TASKS = {
   polish: {
     keys: ['hw', 'al', 'md', 'cd'],
-    prompt: (json) => 'Rewrite each value so a stranger with no medical training understands it in seconds: short, calm, plain words. '
+    prompt: (json) => 'Rewrite each value so a stranger with no medical training understands it in seconds: clear, calm, plain words, correct spelling and grammar. '
+      + 'Completeness matters more than brevity: remove only filler words (like "so", "basically", "thing", "pls"), never information. '
       + 'Only "hw" (how to help) may contain instructions — write those as short imperative sentences. '
       + '"md" (medications), "al" (allergies) and "cd" (conditions) are facts about the owner, never instructions to the reader: keep them as short noun phrases, e.g. "Keppra 500 mg, twice daily". '
-      + 'Keep EVERY fact, drug name, dose, number and name exactly. '
-      + 'Never add facts that are not in the input. Keep each value in its original language. Each value must stay under 250 characters. '
+      + 'Keep EVERY fact, drug name, dose, number and name exactly — dropping any piece of information (for example which condition causes a symptom) is a serious error; shorten wording, never content. '
+      + 'Check before answering: every medical condition, body part, drug, dose, number, time limit and person named in an input value must also appear in the matching output value. '
+      + 'Never add facts that are not in the input. Keep each value in its original language and first person if the owner wrote in first person. Each value must stay under 250 characters. '
       + `Return the same keys.\nInput JSON:\n${json}`,
   },
   tips: {
@@ -65,9 +67,9 @@ async function geminiModels(env) {
   }
   const { models = [] } = await res.json();
   const list = models
-    .filter((m) => /^models\/gemini-/.test(m.name)
-      && (m.supportedGenerationMethods || []).includes('generateContent')
-      && !/(tts|image|embedding|audio|live|robotics|computer-use|native|exp)/i.test(m.name))
+    // Free tier: only Flash / Flash-Lite generation 3+ answer (Pro has no free quota, 2.x is closed to new keys).
+    .filter((m) => /^models\/gemini-(?:([3-9][\d.]*)-)?flash(?:-lite)?(?:-preview|-latest)?$/.test(m.name)
+      && (m.supportedGenerationMethods || []).includes('generateContent'))
     .map((m) => ({ id: m.name.slice(7), label: m.displayName || m.name.slice(7) }))
     .sort((a, b) => b.id.localeCompare(a.id, 'en', { numeric: true }));
   geminiCache = { at: Date.now(), models: list };
@@ -81,7 +83,8 @@ async function providers(env) {
   }];
   const gm = await geminiModels(env).catch(() => []);
   if (gm.length) {
-    const preferred = gm.find((m) => /flash/.test(m.id) && !/lite|preview/.test(m.id)) || gm[0];
+    // Chosen by live tests: the Flash-Lite models drop facts when rewriting.
+    const preferred = gm.find((m) => m.id === 'gemini-3-flash-preview') || gm.find((m) => !/lite/.test(m.id)) || gm[0];
     out.push({
       id: 'gemini', name: 'Google Gemini', models: gm, default: preferred.id,
       note: 'Runs on Google’s free tier — Google may use inputs to improve its products. Avoid it for anything private.',
@@ -117,9 +120,15 @@ async function runGemini(env, model, user) {
       contents: [{ role: 'user', parts: [{ text: user }] }],
       generationConfig: { temperature: 0.2, maxOutputTokens: 4096, responseMimeType: 'application/json' },
     }),
+    signal: AbortSignal.timeout(25000),
   });
   if (res.status === 429) throw Object.assign(new Error('quota'), { code: 'quota' });
-  if (!res.ok) throw new Error(`gemini ${res.status}`);
+  if (res.status === 503) throw Object.assign(new Error('busy'), { code: 'busy' });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => '');
+    console.warn(`gemini ${model} ${res.status} ${detail.slice(0, 300)}`);
+    throw new Error(`gemini ${res.status}`);
+  }
   const data = await res.json();
   return (data.candidates?.[0]?.content?.parts || []).filter((p) => !p.thought).map((p) => p.text || '').join('');
 }
@@ -153,7 +162,9 @@ async function handleAi(request, env) {
   if (!Object.keys(fields).length) return fail(400, 'empty');
 
   const list = await providers(env);
-  const provider = list.find((p) => p.id === body.provider) || list[0];
+  // Never silently swap services: they differ in privacy terms the user chose between.
+  const provider = list.find((p) => p.id === (body.provider || 'cf'));
+  if (!provider) return fail(503, 'unavailable');
   const model = provider.models.find((m) => m.id === body.model)?.id || provider.default;
   const user = task.prompt(JSON.stringify(fields), lang, body.type);
 
@@ -163,6 +174,7 @@ async function handleAi(request, env) {
   } catch (err) {
     const msg = String(err?.message || err);
     if (err?.code === 'quota' || /4006|daily|quota|neurons/i.test(msg)) return fail(429, 'quota');
+    if (err?.code === 'busy') return fail(503, 'busy');
     return fail(502, 'provider');
   }
 
