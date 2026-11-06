@@ -8,9 +8,11 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api/*"]
   },
-  "ai": { "binding": "AI", "remote": true },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "whose-side", "database_id": "fb559f94-d2bb-4926-a9d9-f9945a8ed2fa", "migrations_dir": "migrations" }
+  ],
   "ratelimits": [
-    { "name": "AI_LIMIT", "namespace_id": "4401", "simple": { "limit": 12, "period": 60 } }
+    { "name": "FORM_LIMIT", "namespace_id": "4401", "simple": { "limit": 5, "period": 60 } }
   ],
   "routes": [
     { "pattern": "gitsult4n.com", "custom_domain": true },
